@@ -1,0 +1,66 @@
+.grid {
+    margin: 0 auto;
+    width: 50vw;
+    max-width: 50vh;
+    height: 50vw;
+    max-height: 50vh;
+    font-size: 3rem;
+}
+.row {
+    display: flex;
+}
+.box {
+    background: grey;
+    margin: 0px;
+    color: white;
+    font-weight: bold;
+    flex: 1 0 auto;
+    position: relative;
+    border: solid;
+    border-color: black;
+}
+
+.box:after {
+    content: "";
+    float:left;
+    display: block;
+    padding-top: 100%;
+}
+
+.box .inner {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box .inner .blank {
+    background: white;
+
+    content: "";
+    float:left;
+    display: block;
+    padding-top: 100%;
+}
+
+.box:hover {
+    border-color: gold;
+    color: red;
+    cursor: pointer;
+}
+
+.tableID{
+    margin: 0 auto;
+    width: 100vw;
+    max-width: 100vh;
+    height: 100vw;
+    max-height: 100vh;
+    font-size: 3rem;
+    align-items: center;
+    cursor: pointer;
+}
+
