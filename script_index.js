@@ -9,51 +9,59 @@ window.onload = function() {
 
 
     table.addEventListener('click', (event) => {
-        const rowIndex = rowsArray.findIndex(row => row.contains(document.getElementById("blank")));
-    const columns = Array.from(rowsArray[rowIndex].querySelectorAll('td'));
-    const columnIndex = columns.findIndex(column => column == document.getElementById("blank"));
-    console.log(rowIndex, columnIndex);
-    switch_elems(rowIndex, columnIndex);
-})
+        const rowIndex = rowsArray.findIndex(row => row.contains(event.target));
+        const columns = Array.from(rowsArray[rowIndex].querySelectorAll('td'));
+        const columnIndex = columns.findIndex(column => column == event.target);
+        console.log(rowIndex, columnIndex)
+        switch_elems(rowIndex, columnIndex);
+    })
 }
 
 function switch_elems(i, j) {
 
     const table = document.querySelector('table');
-    const val1 = table.rows[i].cells[j].innerHTML;
+    const val1 = table.rows[i].cells[j].innerHTML; // Cell that is clicked on
 
-    let k = i + 1;   // J is the value to the right of the clicked area
+
+        var tr = document.getElementById("blank").parentNode.rowIndex;
+        var td = document.getElementById("blank").cellIndex;
+    window.alert(tr + "," + td);
+
+
+
+   // const empty = document.getElementById("blank");
+    let y;
+    let k = j + 1;   // J is the value to the right of the clicked area
     let numRows = table.rows.length; // not used, but this gets num rows , The answer is 3
 
     if (k > table.rows[i].cells.length - 1) {
         k = 1;
     }
-    const val2 = table.rows[k].cells[j].innerHTML;
+    if (val1 == empty) {
+        const val2 = table.rows[i].cells[k].innerHTML;
+        table.rows[i].cells[j].innerHTML = val2.toString(); // Slot You Clicked on (Should sty the same)
+        table.rows[i].cells[k].innerHTML = val1.toString();  // New Slot that will replace slot you clicked
+    }
+    if (val1 !== empty) {
+    window.alert(empty);
+    }
 
-    table.rows[i].cells[j].innerHTML = val2.toString(); // Slot You Clicked on (Should sty the same)
-    table.rows[k].cells[j].innerHTML = val1.toString();  // New Slot that will replace slot you clicked
-    window.alert("Blank cell Coordinates: " + i + ", " + j);
+
+   // window.alert("Blank cell Coordinates: " + k + ", " + j);
 
 }
 
-function valid_click(i,j,v,h){
-    // const table = document.querySelector('table');
-    // const clickedCell = table.rows[i].cells[j].innerHTML;
-    //
-    // const blank = table.rows[v].cells[h].innerHTML;
-    //  blank_x = i - 1;
-    //  blank_y = i + 1;
-    //  clicked_x = i;
-    //  clicked_y = j;
-    // let numRows = table.rows.length;
-//Right of Blank (J=j-1, i=i)
+function valid_click(i,j) {
+    // Allow User to click a slot,
+    // Check to the right of blank
+    // const val2 = table.rows[x].cells[y].innerHTML;
+    // var elgible_x;
+    // var elgible_y;
+    // (Right) Check to see if I_blank == I_elgible && j_blank == j_elgible + 1
+    // (Left) Check to see if I-Blank == I_elgible && J_blank ==J_elgible - 1
+    // (Top) Check to see if I_blank == I_elgible - 1 && J_blank == J_elgible
+    // (Bottom) Check to see if I_blank == I_elgible + 1 && J_blank == J_elgible
 
-    //Left of Blank
-    //Top of Blank
-    //Bottom of Blank
-
-    // Allow User to click a slot
-    // Check to the right,
     // the left,
     // on top,
     // on bottom
