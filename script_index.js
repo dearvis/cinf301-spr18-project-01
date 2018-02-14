@@ -34,14 +34,12 @@ function switch_elems(i, j) {
     //Top
     if(i === (x - 1) && j === y && valid_click(i,j) === true)
     {
-
         let empty_val = table.rows[i].cells[j].innerHTML; // new spot clicked is moving too  (B)
         let clicked_val = table.rows[x].cells[y].innerHTML; // E
         table.rows[i].cells[j].innerHTML = clicked_val.toString();
         table.rows[x].cells[y].innerHTML = empty_val.toString();
         x = x - 1;
          document.getElementById("p1").innerHTML = "Valid| " + "Blank Value(x,y):" + x + "," + y + "| Clicked Value(x,y):" + i + "," + j;
-        // document.getElementById("p2").innerHTML = "Blank value now is: " + x + ", " + y;
         return;
     }
 
@@ -83,55 +81,39 @@ function switch_elems(i, j) {
 }
 
 function valid_click(i,j) {
-    const table = document.querySelector('table');
-    const val1 = table.rows[i].cells[j].innerHTML; // Cell that is clicked on
-
-    //   window.alert(x + "," + y);
 
     // (Right) Check to see if selected cell is to the right of the blank one
-    if(i === x && j === (y + 1))
-    {
-        //document.getElementById("p2").innerHTML = "Right is Valid";
-        return true;
-    }
+    if(i === x && j === (y + 1)) {return true;}
+
     // (Left) Check to see if selected cell is to the left of the blank one
-    if(i === x && j === (y - 1))
-    {
-       // document.getElementById("p2").innerHTML = "Left is Valid";
-        return true;
-    }
+    if(i === x && j === (y - 1)) {return true;}
+
     // (Top) Check to see if selected cell is on top of the blank one
-    if(i === (x - 1) && j === y )
-    {
-       // document.getElementById("p2").innerHTML = "Top is Valid";
-        return true;
-    }
+    if(i === (x - 1) && j === y ){return true;}
+
     // (Bottom) Check to see if selected cell is under the blank one
-    if(i === (x + 1) && j === y)
-    {
-        //document.getElementById("p2").innerHTML = "Bottom is Valid";
-        return true;
-    }
+    if(i === (x + 1) && j === y) {return true;}
 
     return false;
 }
 
-function puzzle_solver(i,j){
-    // const table = document.querySelector('table');   // Selects the Table Class
-    // const rows = document.querySelectorAll('tr');    // Selects the tr Class
-    // const rowsArray = Array.from(rows);
-    // const emptySlot = table.getElementsByClassName(' ');
-    // const rowIndex = rowsArray.findIndex(row => row.contains(emptySlot));
-    // const columns = Array.from(rowsArray[rowIndex].querySelectorAll('td'));
-    // const columnIndex = columns.findIndex(column => column == emptySlot);
-    /////////////////////////////////////////////////
+function scramble(){
+    const table = document.querySelector('table');   // Selects the Table Class
+    document.getElementById("p1").innerHTML = "Scrambling";
+    let firstCheck = false;
+    let temp1;
+    let temp2;
 
+    for (var i = table.rows.length - 1; i > 0; i--) {
+        for (var j = table.rows.length - 1; j > 0; j--) {
+            var m =Math.floor(Math.random() * (2));
+            var n = Math.floor(Math.random() * (2));
+           // window.alert("random Num 1,Num 2" + m + ", " +n);
+            var temp = table.rows[i].cells[j].innerHTML;
+            table.rows[i].cells[j].innerHTML = table.rows[m].cells[n].innerHTML.toString();
+            table.rows[m].cells[n].innerHTML = temp.toString();
 
-    // How to set emptySlot equal to the blank??
-
-    // If Blank is on the top Row
-
-    //If Blank is on the Middle Row
-
-    //If Blank is on the Last Row
+        }
+    }
 }
+
