@@ -104,17 +104,23 @@ function scramble() {
     const table = document.querySelector('table');   // Selects the Table Class
 
     //Nested For Loop to shuffle values in the Table
-    for (var i = table.rows.length - 1; i > 0; i--) {
-        for (var j = table.rows.length - 1; j > 0; j--) {
+    for (var i = 0; i  < table.rows.length; i++) {
+        for (var j = 0; j  < table.rows.length; j++) {
             var m = Math.floor(Math.random() * (2));
             var n = Math.floor(Math.random() * (2));
             var temp = table.rows[i].cells[j].innerHTML;
-            var blank_holder = table.rows[x].cells[y].innerHTML.toString();
-
-
+            var blank = " ";
+            if (table.rows[m].cells[n].innerHTML.toString() === blank) // Check to see if empty cell if it is change x and y
+            {
+                x = i;
+                y = j;
+               // document.getElementById("p1").innerHTML = "x and y are at, " + i + ", " + j;
+            }
             //         Location                                    String Value
             table.rows[i].cells[j].innerHTML = table.rows[m].cells[n].innerHTML.toString();
             table.rows[m].cells[n].innerHTML = temp.toString();
+
+
         }
     }
 }
