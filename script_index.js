@@ -1,24 +1,23 @@
-
 /*
- * See https://stackoverflow.com/questions/45656949/how-to-return-the-row-and-column-index-of-a-table-cell-by-clicking
- * which includes a Jquery solution too.
+ * Author: DeArvis Troutman
+ * Class: Web Applications
+ * Date: February 14th, 2018
+ *
  */
-let x = document.getElementById("blank").parentNode.rowIndex;
-let y = document.getElementById("blank").cellIndex;
+let x = document.getElementById("blank").parentNode.rowIndex; // Row index for the blank Cell
+let y = document.getElementById("blank").cellIndex;           // Cell index for the blank Cell
 
 window.onload = function() {
     const table = document.querySelector('table');   // Selects the Table Class
     const rows = document.querySelectorAll('tr');    // Selects the tr Class
     const rowsArray = Array.from(rows);              // Array from the rows in the table
-    document.getElementById("p2").innerHTML = "Blank value is Initially: " + x + ", " + y;
-
+    checkWin();
     table.addEventListener('click', (event) => {
         const rowIndex = rowsArray.findIndex(row => row.contains(event.target));
         const columns = Array.from(rowsArray[rowIndex].querySelectorAll('td'));
         const columnIndex = columns.findIndex(column => column == event.target);
         console.log(rowIndex, columnIndex);
         switch_elems(rowIndex, columnIndex);
-
     })
 };
 
@@ -26,32 +25,34 @@ function switch_elems(i, j) {
     const table = document.querySelector('table');
     if(valid_click(i,j) === false)
     {
-        document.getElementById("p1").innerHTML = "Invalid| " + "Blank Value(x,y):" + x + "," + y + "| Clicked Value(x,y):" + i + "," + j;
+        document.getElementById("p1").innerHTML = "Invalid Move";
         return;
     }
 
     //Vertical
-    //Top
+    //Above Empty Cell
     if(i === (x - 1) && j === y && valid_click(i,j) === true)
     {
         let empty_val = table.rows[i].cells[j].innerHTML; // new spot clicked is moving too  (B)
         let clicked_val = table.rows[x].cells[y].innerHTML; // E
+        document.getElementById("p1").innerHTML = " ";
         table.rows[i].cells[j].innerHTML = clicked_val.toString();
         table.rows[x].cells[y].innerHTML = empty_val.toString();
         x = x - 1;
-         document.getElementById("p1").innerHTML = "Valid| " + "Blank Value(x,y):" + x + "," + y + "| Clicked Value(x,y):" + i + "," + j;
+        checkWin();
         return;
     }
 
-    //Bottom
+    //Below empty cell
     if(i === (x + 1) && j === y && valid_click(i,j) === true)
     {
-        let empty_val = table.rows[i].cells[j].innerHTML; // new spot clicked is moving too  (B)
-        let clicked_val = table.rows[x].cells[y].innerHTML; // E
+        let empty_val = table.rows[i].cells[j].innerHTML;
+        let clicked_val = table.rows[x].cells[y].innerHTML;
+        document.getElementById("p1").innerHTML = " ";
         table.rows[i].cells[j].innerHTML = clicked_val.toString();
         table.rows[x].cells[y].innerHTML = empty_val.toString();
         x = x + 1;
-        document.getElementById("p1").innerHTML = "Valid| " + "Blank Value(x,y):" + x + "," + y + "| Clicked Value(x,y):" + i + "," + j;
+        checkWin();
         return;
     }
 
@@ -60,24 +61,26 @@ function switch_elems(i, j) {
     if(i === x && j === (y - 1) && valid_click(i,j) === true)
     {
         let empty_val = table.rows[i].cells[j].innerHTML; // new spot clicked is moving too  (B)
-        let clicked_val = table.rows[x].cells[y].innerHTML; // E
+        let clicked_val = table.rows[x].cells[y].innerHTML;
+        document.getElementById("p1").innerHTML = " ";
         table.rows[i].cells[j].innerHTML = clicked_val.toString();
         table.rows[x].cells[y].innerHTML = empty_val.toString();
         y = y - 1;
-        document.getElementById("p1").innerHTML = "Valid| " + "Blank Value(x,y):" + x + "," + y + "| Clicked Value(x,y):" + i + "," + j;
+        checkWin();
         return;
     }
     //Right
     if(i === x && j === (y + 1) && valid_click(i,j) === true)
     {
-        let empty_val = table.rows[i].cells[j].innerHTML; // new spot clicked is moving too  (Coordinates for NEW empty)
-        let clicked_val = table.rows[x].cells[y].innerHTML; // Coordinates for new
+        let empty_val = table.rows[i].cells[j].innerHTML; // new spot clicked is moving too Coordinates for NEW empty cell
+        let clicked_val = table.rows[x].cells[y].innerHTML; // Coordinates for new empty cell moving too clicked coordinates
+        document.getElementById("p1").innerHTML = " ";
         table.rows[i].cells[j].innerHTML = clicked_val.toString();
         table.rows[x].cells[y].innerHTML = empty_val.toString();
         y = y + 1;
-        document.getElementById("p1").innerHTML = "Valid| " + "Blank Value(x,y):" + x + "," + y + "| Clicked Value(x,y):" + i + "," + j;
+        checkWin();
     }
-    // window.alert("Blank cell Coordinates: " + k + ", " + j);
+
 }
 
 function valid_click(i,j) {
@@ -97,23 +100,42 @@ function valid_click(i,j) {
     return false;
 }
 
-function scramble(){
+function scramble() {
     const table = document.querySelector('table');   // Selects the Table Class
-    document.getElementById("p1").innerHTML = "Scrambling";
-    let firstCheck = false;
-    let temp1;
-    let temp2;
 
+    //Nested For Loop to shuffle values in the Table
     for (var i = table.rows.length - 1; i > 0; i--) {
         for (var j = table.rows.length - 1; j > 0; j--) {
-            var m =Math.floor(Math.random() * (2));
+            var m = Math.floor(Math.random() * (2));
             var n = Math.floor(Math.random() * (2));
-           // window.alert("random Num 1,Num 2" + m + ", " +n);
             var temp = table.rows[i].cells[j].innerHTML;
+            var blank_holder = table.rows[x].cells[y].innerHTML.toString();
+
+
+            //         Location                                    String Value
             table.rows[i].cells[j].innerHTML = table.rows[m].cells[n].innerHTML.toString();
             table.rows[m].cells[n].innerHTML = temp.toString();
-
         }
     }
 }
+
+   function checkWin()
+    {
+        // Loop Through the table and answer sheet and if they are the same then grid is correct
+        var answerSheet = ["1","2","3","8"," ","4","7","6","5"];
+        const table = document.querySelector('table');
+        let z = 0;
+        for (var g = 0; g < table.rows.length; g++) {
+            for (var h = 0; h < table.rows.length; h++) {
+                if (table.rows[g].cells[h].innerHTML.toString() !== answerSheet[z]) // If cell does not match that in the answer sheet return false
+                {
+                    return false;
+                }
+                    z++;
+            }
+        }
+        window.alert("Congratulations You Solved The Puzzle!!!");
+        return true;
+    }
+
 
